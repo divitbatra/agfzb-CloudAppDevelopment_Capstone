@@ -1,36 +1,44 @@
-# Final Project Template
+# Full Stack Cloud Development Capstone Project
+### _A cloud-hosted web-based application for a car dealership's car reviewal platform_
 
-The final project for this course has several steps that you must complete. 
-To give you an overview of the whole project, all the high-level steps are listed below. 
-The project is then divided into several smaller labs that give the detailed instructions for each step. 
-You must complete all the labs to successfully complete the project.
+This repo contains the code for a Django web application hosted in the IBM Cloud. 
 
-## Project Breakdown
+#### Background
+This Django application was developed as part of the final [Capstone Project](https://www.coursera.org/learn/ibm-cloud-native-full-stack-development-capstone?specialization=ibm-full-stack-cloud-developer) in the 10-course [IBM Full Stack Cloud Developer Professional Certificate](https://www.coursera.org/professional-certificates/ibm-full-stack-cloud-developer) on Coursera. This course provides a rudimentary version of the Django application, without any central functionality or templates. The general architecture and idea for the application was provided by Coursera, as well as most of the design and layout. Since the project was peer-reviewed after strict requirements, I didn't spend much time on further improving the front end design or UX, so the site is pretty ugly. I have mainly focused on implementing the functionality and back-end services specified by the course instructors. 
 
-**Prework: Sign up for IBM Cloud account and create a Watson Natural language Understanding service**
-1. Create an IBM cloud account if you don't have one already.
-2. Create an instance of the Natural Language Understanding (NLU) service.
+#### Project Requirements
+The general idea is to build a website that allows users to select one of *Best Car*'s dealerhips (a fictional company) in the US to view other users' reviews of the dealership's cars, as well as submit their own reviews. The site also needed basic functionality such as a navigation bar and static "about" and "contact" pages. The website had to be built with the Python-Django full stack web development framework and be deployed with Red Hat Openshift/Kubernetes on the IBM Cloud.
 
-**Fork the project Github repository with a project then build and deploy the template project**
-1. Fork the repository in your account
-2. Clone the repository in the theia lab environment
-3. Create static pages to finish the user stories
-4. Deploy the application on IBM Cloud
+#### Architecture
+![Application architecture model](capstone-project-model.png)
+_Application architecture_
 
-**Add user management to the application**
-1. Implement user management using the Django user authentication system.
-2. Set up continuous integration and delivery
+The dealership and review data is located in an IBM Cloudant database, while data about users and cars is in a simple SQLite database. In order to access data from IBM Cloudant, this application relies on three IBM Cloud Functions which are accessible through an IBM Watson API service. 
 
-**Implement backend services**
-1. Create cloud functions to manage dealers and reviews
-2. Create Django models and views to manage car model and car make
-3. Create Django proxy services and views to integrate dealers, reviews, and cars together
- 
-**Add dynamic pages with Django templates**
-1. Create a page that shows all the dealers
-2. Create a page that show reviews for a selected dealer
-3. Create a page that let's the end user add a review for a selected dealer
+Each review is analysed by IBM Watson in order to display the review's general sentiment (positive, negative or neutral). 
 
-**Containerize your application**
-1. Add deployment artifacts to your application
-2. Deploy your application
+#### Setup 
+Clone the project:
+- ```cd Full\ Stack\ Cloud\ Dev\ Capstone\ Project/server```
+Install the required Python packages
+- ```python -m pip install -r requirements.txt```
+
+Create a [new Django Secret Key](https://humberto.io/blog/tldr-generate-django-secret-key/) 
+
+Run the development server: </br>
+- ```python manage.py createmigrations```
+- ```python manage.py migrate```
+- ```python manage.py runserver```
+
+Create a new superuser: </br>
+- ```python manage.py createsuperuser```
+- Log in via the admin site (just add `/admin` at the end of the url)
+
+Push to IBM Cloud Foundry: </br>
+- Install the IBM Cloud CLI and the cloud foundry plugin
+- Configure the `manifest.yml` file
+- `ìbmcloud cf push`
+
+#### Special Thanks 
+Special thanks to [Best Website](https://bestwebsite.com/) for funding this project! 
+
